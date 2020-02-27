@@ -21,7 +21,7 @@ router.get("/:username/:count/:sort", (req, res) => {
   const clientSecret = keys.clientSecret.trim();
   const url = `https://api.github.com/users/${username}/repos?per_page=${count}&sort=${sort}&client_id=${
     clientId
-  }&client_secret=${clientSecret}`;
+    }&client_secret=${clientSecret}`;
 
   axios
     .get(url)

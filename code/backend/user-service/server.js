@@ -10,22 +10,22 @@ const post = require("./routes/api/post");
 // Logging Configuration
 var morgan = require('morgan');
 var uuid = require('node-uuid');
-morgan.token('id', function getId (req) {
-  return req.id
-})
+morgan.token('id', function getId(req) {
+  return req.id;
+});
 
 const app = express();
 
 app.use(assignId);
 app.use(
-  morgan(':id :remote-addr :remote-user :method :url [:status] :response-time',{
-    skip: function (req, res) { return req.url === "/test" }
+  morgan(':id :remote-addr :remote-user :method :url [:status] :response-time', {
+    skip: function (req, res) { return req.url === "/test"; }
   })
 );
 
-function assignId (req, res, next) {
-  req.id = uuid.v4()
-  next()
+function assignId(req, res, next) {
+  req.id = uuid.v4();
+  next();
 }
 
 // Body Parser Middleware
