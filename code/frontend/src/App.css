@@ -1,0 +1,68 @@
+img {
+  width: 100%;
+}
+
+.landing {
+  /*position: relative;
+  background: url("./img/tree.jpg") no-repeat;
+  background-size: cover;
+  background-position: inherit;*/
+  height: 100vh;
+  margin-top: -24px;
+  margin-bottom: -50px;
+}
+
+.default-transp-bg {
+  position: relative;
+  background: url("./img/tree-white.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  /*height: 100vh;*/
+  min-height: 88vh;
+  margin-top: -24px;
+  margin-bottom: -50px;
+}
+
+.white-bg {
+  background-color: #ffffffbf;
+  border-radius: 10px;
+}
+
+.card {
+  background-color: #ffffffbf;
+}
+
+.landing-inner {
+  padding-top: 80px;
+}
+
+.dark-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card-form {
+  opacity: 0.9;
+}
+
+.latest-profiles-img {
+  width: 40px;
+  height: 40px;
+}
+
+.form-control::placeholder {
+  color: #bbb !important;
+}
+
+.spinner {
+  background-color: #fff;
+  border-radius: 10px;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}

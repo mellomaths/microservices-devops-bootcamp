@@ -1,0 +1,59 @@
+const ObjectMapper = (sourceType, destinationType) => {
+  const destinationTypeOutput = {};
+  Object.entries(sourceType).forEach(([key, value]) => {
+    if (destinationType.hasOwnProperty(key)) {
+      if (value) {
+        destinationTypeOutput[key] = value;
+      }
+    }
+  });
+  return destinationTypeOutput;
+};
+ 
+class EditProfile extends Component {
+  state = {
+    displaySocialInput: false,
+    handle: '',
+    company: '',
+    website: '',
+    location: '',
+    status: '',
+    skills: '',
+    githubUsername: '',
+    bio: '',
+    twitter: '',
+    facebook: '',
+    linkedin: '',
+    github: '',
+    instagram: ''
+  };
+ 
+  fillProfileState = profile => {
+    const { skills, social } = profile;
+    const skillsToFill = skills ? skills.join() : '';
+    const socialsToFill = social ? ObjectMapper(social, this.state) : {};
+    const profileToFill = {
+      ...ObjectMapper(profile, this.state),
+      ...socialsToFill,
+      skills: skillsToFill
+    };
+    this.setState({
+      ...this.state,
+      ...profileToFill
+    });
+  };
+ 
+  componentDidMount() {
+    const {
+      profile: { profile }
+    } = this.props;
+    // Read profile from redux store
+    // if it has profile fill the form.
+    // normal form filing case
+    if (!isEmpty(profile)) {
+      this.fillProfileState(profile);
+    }
+  }
+ 
+// more code after...
+}
