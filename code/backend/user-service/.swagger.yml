@@ -1,0 +1,320 @@
+openapi: 3.0.0
+info:
+  title: API Users Management
+  description: Users Service API for managing users on the system.
+  version: 1.0.0
+servers:
+  - url: 'https://onlinedevelopers.com/api'
+    description: Production
+  - url: 'https://stage.onlinedevelopers.com/api'
+    description: Staging
+  - url: 'https://dev.onlinedevelopers.com/api'
+    description: Development
+paths:
+  '/users/register':
+    post:
+      tags:
+        - Registration
+      summary: Create a new user login.
+      description: Receives a user's object, with login info and creates a user based on email.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registerUser'
+      responses:
+        201:
+          description: User created.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/serviceResponse'
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      lastUpdateAt:
+                        type: string
+                        format: date-time
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        422:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+  '/users/login':
+    post:
+      tags:
+        - Registration
+      summary: Login with a user.
+      description: Receives a login info (email and password) and returns an access_token for next requests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginUser'
+      responses:
+        201:
+          description: User created.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/serviceResponse'
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                      token_type:
+                        type: string
+                      expires_in:
+                        type: number
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        404:
+          $ref: '#/components/responses/ErrorResponse'
+        422:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+  '/users/profile':
+    post:
+      tags:
+        - Profile
+      summary: Creates a user profile.
+      description: Receives information about the user to be registered in profile.
+      parameters: 
+        - in: header
+          name: access_token
+          description: Access token provided by the service on Login operation response.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createProfile'
+      responses:
+        201:
+          description: User's profile successfully created.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/serviceResponse'
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      createdAt:
+                        type: string
+                        format: date-time
+                      lastUpdateAt:
+                        type: string
+                        format: date-time
+          headers:
+            Location:
+              description: URI path to get user's profile.
+              schema:
+                type: string
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+        401:
+          $ref: '#/components/responses/ErrorResponse'
+        404:
+          $ref: '#/components/responses/ErrorResponse'
+        409:
+          $ref: '#/components/responses/ErrorResponse'
+        422:
+          $ref: '#/components/responses/ErrorResponse'
+        500:
+          $ref: '#/components/responses/ErrorResponse'
+components:
+  responses:
+    ErrorResponse:
+      description: 'An error ocurred. Please check the response status code and the error property on response body'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/serviceResponse'
+              - $ref: '#/components/schemas/_serviceErrorResponse'
+  schemas:
+    registerUser:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - confirmPassword
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        confirmPassword:
+          type: string
+          format: password
+    loginUser:
+      type: object
+      required: 
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+    createProfile:
+      type: object
+      required:
+        - username
+        - profession
+        - country
+        - skills
+      properties:
+        username:
+          type: string
+          description: Unique username to be shown in your profile and custom url.
+        profession:
+          type: string
+          description: User's profession.
+        company:
+          type: string
+          description: User's company.
+        website:
+          type: string
+          description: User's personal website.
+        country:
+          type: string
+          description: Country where the user lives.
+        state:
+          type: string
+          description: State where the user lives.
+        city:
+          type: string
+          description: City where the user lives.
+        skills:
+          type: array
+          minItems: 1
+          description: Name of the skills the user has.
+          items:
+            type: string
+        biography:
+          type: string
+          description: Short description about the user.
+        socialMedia:
+          type: object
+          description: Social media links. Receives username or url. Both are not needed. 
+          properties:
+            linkedin:
+              $ref: '#/components/schemas/_socialMediaObject'
+            facebook:
+              $ref: '#/components/schemas/_socialMediaObject'
+            twitter:
+              $ref: '#/components/schemas/_socialMediaObject'
+            github:
+              $ref: '#/components/schemas/_socialMediaObject'
+    serviceResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: (Metadata) Date when the request happened.
+        statusCode:
+          type: number
+          description: (Metadata) Same value as the status code response.
+        description:
+          type: number
+          description: (Metadata) Status code description.
+          example: Bad request
+        path:
+          type: string
+          description: (Metadata) URI requested.
+          example: '/api/users'
+    _serviceErrorResponse:
+      type: object
+      description: If there are errors, the object will be filled.
+      properties:
+        error:
+          $ref: '#/components/schemas/_serviceErrorObject'
+    _serviceErrorObject:
+      type: object
+      description: If there are errors, the object will be filled.
+      properties:
+        code:
+          type: string
+          description: Unique code for the error.
+          example: FIELDS_VALIDATION_ERROR
+        description:
+          type: string
+          description: High level message describing what is wrong with the request.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/_serviceErrorDetail'
+    _serviceErrorDetail:
+      type: object
+      properties:
+        property:
+          type: string
+          description: Name of the property on request body that is not well formatted.
+        message:
+          type: string
+          description: High level message describing what is wrong is wrong in the property.
+        example:  
+          type: string
+          description: An example for the property value.
+        constraints:
+          type: object
+          description: List of validation which the property didn't pass.
+          properties:
+            notNull:
+              type: boolean
+              description: 'If true, property was not sent.'
+            notBlank:
+              type: boolean
+              description: 'If true, the string property was sent blank.'
+            regex:
+              type: boolean
+              description: If true, property did'nt pass on a regex validation.
+            enum:
+              type: array
+              description: List of possible values that the property should have.
+              items:
+                type: string
+            min:
+              type: number
+              description: Minimun value for a number or string length that the property should have. 
+            max: 
+              type: number
+              description: Maximun value for a number or string length that the property should have.
+    _socialMediaObject:
+      type: object
+      properties:
+        username:
+          type: string
+        url:
+          type: string
