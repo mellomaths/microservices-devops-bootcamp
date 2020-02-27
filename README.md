@@ -1,2 +1,2 @@
 # microservices-devops-bootcamp
-Bootcamp DevOps (repositório de aprendizado pessoal)
+Microservices e DevOps (repositório de aprendizado pessoal)
