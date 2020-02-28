@@ -4,7 +4,7 @@ import { Routes } from 'nest-router';
 
 import { GithubModule, githubRoutes } from './github/github.module';
 
-export const v1Routes: Routes = [
+export const V1Routes: Routes = [
   {
     path: '/github',
     module: GithubModule,

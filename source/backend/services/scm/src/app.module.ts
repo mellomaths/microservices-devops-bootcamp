@@ -2,19 +2,19 @@ import { Module } from '@nestjs/common';
 
 import { Routes, RouterModule } from 'nest-router';
 
-import { ApiModule, apiRoutes } from './api/api.module';
+import { ApiModule, ApiRoutes } from './api/api.module';
 
-const routes: Routes = [
+const AppRoutes: Routes = [
   {
     path: '/api/scm',
     module: ApiModule,
-    children: apiRoutes,
+    children: ApiRoutes,
   },
 ];
 
 @Module({
   imports: [
-    RouterModule.forRoutes(routes),
+    RouterModule.forRoutes(AppRoutes),
     ApiModule,
   ],
   controllers: [],
