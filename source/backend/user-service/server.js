@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 const passport = require("passport");
 
 const user = require("./routes/api/user");
@@ -16,6 +17,13 @@ morgan.token('id', function getId(req) {
 
 const app = express();
 
+// Body Parser Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Enable cors
+app.use(cors());
+
 app.use(assignId);
 app.use(
   morgan(':id :remote-addr :remote-user :method :url [:status] :response-time', {
@@ -27,10 +35,6 @@ function assignId(req, res, next) {
   req.id = uuid.v4();
   next();
 }
-
-// Body Parser Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 // Database Configuration and Connection
 const db = require("./config/keys").mongoURI.trim();
