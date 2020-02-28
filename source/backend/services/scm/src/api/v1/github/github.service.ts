@@ -33,7 +33,7 @@ export class GithubService {
         .toPromise();
 
       const repositories = response.data.map(element => Repository.createFromResponse(element));
-      return repositories;
+      return { status: 200, data: repositories };
     } catch (error) {
       const { response } = error;
 

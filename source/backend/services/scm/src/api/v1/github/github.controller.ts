@@ -10,11 +10,16 @@ export class GithubController {
   ) { }
 
   @Get('repositories/:username')
-  repositories(
+  async repositories(
     @Param('username') username: string,
     @Query('limit') limit: number,
     @Query('sort') sort: string,
   ) {
-    return this.githubService.findRepositories(username, { limit, sort });
+    const serviceResponse = await this.githubService.findRepositories(username, { limit, sort });
+    if (serviceResponse.status === 200) {
+      return serviceResponse.data;
+    }
+
+    return serviceResponse;
   }
 }
