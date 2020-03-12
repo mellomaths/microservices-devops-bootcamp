@@ -1,6 +1,6 @@
 import { Module, HttpModule } from '@nestjs/common';
 
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 
 import { Routes } from 'nest-router';
 
