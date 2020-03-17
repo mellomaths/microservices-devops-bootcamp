@@ -6,8 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Routes } from 'nest-router';
 
 import { UsersService } from './service/users.service';
-import { UsersAuthService } from './service/users.auth.service';
+import { UsersAuthService } from './service/users-auth.service';
 import { UsersController } from './users.controller';
+import { ProfileController } from './profile.controller';
 import { UserEntity } from './service/entities/user.entity';
 
 export const usersRoutes: Routes = [];
@@ -17,7 +18,7 @@ export const usersRoutes: Routes = [];
     TypeOrmModule.forFeature([UserEntity]),
   ],
   providers: [UsersService, UsersAuthService],
-  controllers: [UsersController],
+  controllers: [ProfileController, UsersController],
   exports: [UsersService, UsersAuthService],
 })
 export class UsersModule { }

@@ -9,7 +9,7 @@ import { UserEntity } from './entities/user.entity';
 import { UserCreateDto } from './dto/user.create.dto';
 
 import { ServiceResponse, ServiceError, ServiceValidationResponse } from '../../utils/service.response';
-import { UsersAuthService } from './users.auth.service';
+import { UsersAuthService } from './users-auth.service';
 
 @Injectable()
 export class UsersService {
