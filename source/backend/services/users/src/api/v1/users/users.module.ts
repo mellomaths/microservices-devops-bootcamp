@@ -10,8 +10,6 @@ import { UsersAuthService } from './service/users.auth.service';
 import { UsersController } from './users.controller';
 import { UserEntity } from './service/entities/user.entity';
 
-import { jwtConstants } from '../auth/config';
-
 export const usersRoutes: Routes = [];
 
 @Module({
