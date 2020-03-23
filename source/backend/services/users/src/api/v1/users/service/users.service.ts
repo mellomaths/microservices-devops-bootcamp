@@ -98,7 +98,7 @@ export class UsersService {
     };
   }
 
-  async findById(uuid: string) {
+  async findById(uuid: string): Promise<ServiceResponse> {
     const user: UserEntity = await this.usersRepository.findOne(uuid);
     if (!user) {
       const message: string = `User ${uuid} was not found.`;
@@ -109,4 +109,19 @@ export class UsersService {
     return { status: 200, payload: { user: { ...user, avatar, password: undefined } }, errors: [], description: 'User found.' };
   }
 
+  async findProfile(id: string): Promise<ServiceResponse> {
+    const user: UserEntity = await this.usersRepository.findOne(id, { relations: ['profile'] });
+    if (!user) {
+      const message: string = `User ${id} was not found.`;
+      return { status: 404, payload: {}, errors: [], description: message };
+    }
+
+    const { profile } = user;
+    if (!user.profile) {
+      const message: string = `USer ${id} doesn't have a profile created.`;
+      return { status: 404, payload: {}, errors: [], description: message };
+    }
+
+    return { status: 200, payload: { profile }, errors: [], description: 'Profile found.' };
+  }
 }

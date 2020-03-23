@@ -2,7 +2,7 @@ import { Controller, Req, Res, HttpStatus, Get, UseGuards } from '@nestjs/common
 
 import { Response } from 'express';
 
-import { UsersService } from './service/users.service';
+import { UsersService } from '../users/service/users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller()
@@ -12,6 +12,13 @@ export class ProfileController {
     private readonly usersService: UsersService,
   ) { }
 
+  /**
+   * Shows user logged profile
+   * GET /api/accounts/v1/users/profile
+   *
+   * Headers
+   *  Authorization: Bearer <token>
+   */
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   async profile(@Req() request, @Res() response: Response) {

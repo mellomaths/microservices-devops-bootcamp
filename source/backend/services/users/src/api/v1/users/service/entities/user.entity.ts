@@ -1,6 +1,7 @@
 import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column, OneToOne, JoinColumn, Entity } from 'typeorm';
+import { ProfileEntity } from 'src/api/v1/profiles/service/entities/profile.entity';
 
-@Entity('user')
+@Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   readonly id: string;
@@ -23,8 +24,8 @@ export class UserEntity {
   @Column('text')
   avatar: string;
 
-  // @OneToOne(type => ProfileEntity)
-  // @JoinColumn()
-  // profile: ProfileEntity;
+  @OneToOne(type => ProfileEntity)
+  @JoinColumn()
+  profile: ProfileEntity;
 
 }

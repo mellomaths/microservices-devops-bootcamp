@@ -5,6 +5,7 @@ import { Routes } from 'nest-router';
 
 import { UsersModule, usersRoutes } from './users/users.module';
 import { AuthModule, authRoutes } from './auth/auth.module';
+import { ProfilesModule, profilesRoutes } from './profiles/profiles.module';
 
 import jwt from './core/config/jwt.config';
 
@@ -19,6 +20,11 @@ export const V1Routes: Routes = [
     module: AuthModule,
     children: authRoutes,
   },
+  {
+    path: '/users/profile',
+    module: ProfilesModule,
+    children: profilesRoutes,
+  },
 ];
 
 @Module({
@@ -28,6 +34,7 @@ export const V1Routes: Routes = [
     }),
     UsersModule,
     AuthModule,
+    ProfilesModule,
   ],
   controllers: [],
   providers: [],
